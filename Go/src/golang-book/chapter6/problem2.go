@@ -9,9 +9,14 @@ func main() {
     37,34,83,27,
     19,97, 9,17,
 }
+// sets min to first element 0 the x array of integers
   min := x[0]
-
+// _ tells compiler we dont need iterator variable
+  // value is the same as x[i]
+  // range followed by the variable x we are looping over
+  
   for _, value := range x {
+   // if the value is less then current min then set min equal to that value
     if value < min {
       min = value
     }
@@ -19,4 +24,3 @@ func main() {
   fmt.Println(min)
 }
 
-//should get c,d,e as the low:high index of 2:5 should give (starting at 0) c and the high index of 5 ( ends at f but doe not include f) outputs e
