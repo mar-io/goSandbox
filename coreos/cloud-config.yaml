@@ -1,0 +1,18 @@
+#cloud-config
+
+coreos:
+  etcd:
+    # generate a new token for each unique cluster from https://discovery.etcd.io/new?size=3
+    # specify the intial size of your cluster with ?size=X
+    discovery:  http://10.11.12.36:2379/v2/keys/discovery/6c007a14875d53d9bf0ef5a6fc0257c817f0fb83
+    # multi-region and multi-cloud deployments need to use $public_ipv4
+    addr: $private_ipv4:4001
+    peer-addr: $private_ipv4:7001
+  units:
+    - name: etcd.service
+      command: start
+    - name: fleet.service
+      command: start
+ssh_authorized_keys:
+  # include one or more SSH public keys
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDRi9WxbMNGJBuay78QUKlUY8cp0Xuc5Mp1LXAOa6U4b27y+zMEapapeUf2R/KRcLEmsW/3v5yVktDMH4FTu/4wi1RN2ZjdnkWdyH7GhnT+Hc7jIoe0xuoV9hOmBRdSoi57xgkCmfiska5vBwofYtc3wJeXJ73ZBxeBd6BIhQsEIR6qovJ40IjHIEJTsOVM/lFIhNTpvkjgTZB2fOnjvMHnzACSmOxQ61zy/9PGT1Z2BgLeA+8dTOBzt3Vyz5dEQRDWIS/QrMdls6ky3cSXGpYNYzd+k3sAeTKqDWX767CSR64J3wyFg7ieNhDyF8PyJo2SiLE3s100JZDSatBO/407 badmadrad@tom
