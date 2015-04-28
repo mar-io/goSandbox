@@ -1,0 +1,24 @@
+etcd -name infra1 -initial-advertise-peer-urls http://10.11.12.39:2380 \
+  -listen-peer-urls http://10.11.12.39:2380 \
+  -listen-client-urls http://10.11.12.39:2379 \
+  -initial-cluster-token etcd-cluster-1 \
+  -initial-cluster infra0=http://10.11.12.36:2380,infra1=http://10.11.12.39:2380,infra2=http://10.11.12.38:2380 \
+  -initial-cluster-state new
+
+etcd -name infra0 -initial-advertise-peer-urls http://10.11.12.36:2380 \
+  -listen-peer-urls http://10.11.12.36:2380 \
+  -listen-client-urls http://10.11.12.36:2379 \
+  -initial-cluster-token etcd-cluster-1 \
+  -initial-cluster infra0=http://10.11.12.36:2380,infra1=http://10.11.12.39:2380,infra2=http://10.11.12.38:2380 \
+  -initial-cluster-state new
+
+etcd -name infra2 -initial-advertise-peer-urls http://10.11.12.38:2380 \
+  -listen-peer-urls http://10.11.12.38:2380 \
+   -listen-client-urls http://10.11.12.38:2379 \
+  -initial-cluster-token etcd-cluster-1 \
+  -initial-cluster infra0=http://10.11.12.36:2380,infra1=http://10.11.12.39:2380,infra2=http://10.11.12.38:2380 \
+  -initial-cluster-state new
+
+ETCDCTL_PEERS="http://10.11.12.36:2379,http://10.11.12.39:2379,http://10.11.12.38:2379"
+
+etcdctl --peers http://10.11.12.36:2379,http://10.11.12.39:2379,http://10.11.12.38:2379

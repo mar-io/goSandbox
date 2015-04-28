@@ -19,8 +19,7 @@ type Android struct {
 // accessing the embedded Person struct through the Android Struct
 func main() {
   a := new(Android)
-  p := Person{"Mario"}
-  a.Talk(&p)
+  a.Talk()
 }
 
 
