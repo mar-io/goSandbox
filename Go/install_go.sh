@@ -31,16 +31,15 @@ GOGOGO="$HOME/.go"
 
 cd $TMP
 curl -O $LINK
-cd $HOME
-mkdir -p $GOGOGO
-tar -C $GOGOGO -xzf $TMP/$BINARY
+tar -C $HOME -xzf $TMP/$BINARY
 rm -rf $TMP/$BINARY
+mv $HOME/go $HOME/.go
 
 if [ "$SHELL" = "/bin/bash" ] ; then
   if [ "cat $HOME/.bashrc | grep GOROOT=$HOME/.go" == true ] ; then
     exit 0
   else
-    echo 'export GOROOT=$HOME/.go' >> "$HOME/.bashrc"
+    echo 'export GOROOT=$HOME/.go/go' >> "$HOME/.bashrc"
     echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.bashrc"
     source "$HOME/.bashrc"
   fi
