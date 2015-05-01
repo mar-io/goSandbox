@@ -136,6 +136,7 @@ elif ls $HOME/.go 2> /dev/null | grep "go-$VERSION-$BIT" > /dev/null ; then
 fi
 
 cd $TMP
+echo "Downloading $LINK"
 curl -O $LINK
 if [ $? -ne 0 ]; then
     echo "Download failed! Are you sure you are using a valid version? Exiting..."
