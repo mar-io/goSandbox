@@ -24,21 +24,12 @@ if [ "$hlp" = "yes" ]; then
   exit 0
 fi
 
-if [ "go version | grep $VERSION" = true ] ; then
-  echo "Go version $VERSION already installed. Exiting..."
-  exit 0
-fi
-
 BINARY="go$VERSION.linux-amd64.tar.gz"
 LINK="https://storage.googleapis.com/golang/$BINARY"
 TMP="/tmp"
 GOGOGO="$HOME/.go"
 
-cd $TMP
-curl -O $LINK
-tar -C $HOME -xzf $TMP/$BINARY
-rm -rf $TMP/$BINARY
-mv $HOME/go $HOME/.go
+function goshell {
 
 if [ "$SHELL" = "/bin/bash" ] ; then
   if [ "cat $HOME/.bashrc | grep GOROOT=$HOME/.go" == true ] ; then
@@ -60,9 +51,18 @@ else
   echo "Not a valid shell. Use bash or zsh"
   exit 1
 fi
+}
 
+if go version 2> /dev/null | grep $VERSION > /dev/null ; then
+  echo "Go version $VERSION already installed. Exiting..."
+  goshell
+  exit 0
+fi
 
-
-
-
-
+cd $TMP
+curl -O $LINK
+tar -C $HOME -xzf $TMP/$BINARY
+rm -rf $TMP/$BINARY
+mv $HOME/go $HOME/.go
+goshell
+echo "Go version $VERSION installed!"
