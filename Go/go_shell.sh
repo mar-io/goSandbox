@@ -56,17 +56,27 @@ if [ "$PURGE" = true ] ; then
   exit
 fi
 
-if [ "$BIT" = '64' ] || [ "$BIT" = '32' ] ; then
+if [ "$BIT" = '64' ] ; then
+    if [ -z "$VERSION" ] ; then
     VERSION=$GETVRS
+    fi
+    BINARY="go$VERSION.linux-amd$BIT.tar.gz"
+elif [ "$BIT" = '32' ] ; then
+    if [ -z "$VERSION" ] ; then
+    VERSION=$GETVRS
+    fi
+    BINARY="go$VERSION.linux-386.tar.gz"
 elif [ -z "$BIT" ] ; then
-    BIT='64'
+    if [ -z "$VERSION" ] ; then
     VERSION=$GETVRS
+    fi
+    BIT='64'
+    BINARY="go$VERSION.linux-amd$BIT.tar.gz"
 else
   echo 'Not a valid bit version. Please select 32,64 or nothing at all.Exiting.'
   exit 1
 fi
 
-BINARY="go$VERSION.linux-amd$BIT.tar.gz"
 LINK="https://storage.googleapis.com/golang/$BINARY"
 TMP="/tmp"
 GOGOGO="$HOME/.go/go-$VERSION-$BIT"
