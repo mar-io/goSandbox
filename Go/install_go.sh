@@ -45,9 +45,11 @@ elif [ "$SHELL" = "/bin/zsh" ]; then
     source "$HOME/.zshrc"
     echo "Current shell using go version $VERSION"
   fi
+elif [ "$SHELL" != "/bin/bash" ] || [ "$SHELL" != "/bin/zsh" ] ; then
+    echo "Not a valid shell. Use bash or zsh"
+    exit 1
 else
-  echo "Not a valid shell. Use bash or zsh"
-  exit 1
+    echo "test" > /dev/null
 fi
 }
 
@@ -67,17 +69,22 @@ elif [ "$SHELL" = "/bin/zsh" ]; then
     source "$HOME/.zshrc"
     echo "Current shell using go version $VERSION"
   fi
+elif [ "$SHELL" != "/bin/bash" ] || [ "$SHELL" != "/bin/zsh" ] ; then
+    echo "Not a valid shell. Use bash or zsh"
+    exit 1
 else
-goswitch
+    echo 'test' > /dev/null
 fi
 }
 
 if go version 2> /dev/null | grep $VERSION > /dev/null ; then
   echo "Go version $VERSION already installed."
   goshell
+  goswitch
   exit 0
 elif ls $HOME/.go | grep $VERSION > /dev/null ; then
   echo "Switching Go to version $VERSION"
+  goshell
   goswitch
   exit 0
 fi
@@ -90,3 +97,4 @@ mkdir -p $HOME/.go
 mv $HOME/go $HOME/.go/go-$VERSION
 echo "Go version $VERSION installed!"
 goshell
+goswitch
