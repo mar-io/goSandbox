@@ -134,12 +134,12 @@ fi
 }
 
 if go version 2> /dev/null | grep "go$VERSION linux/amd$BIT" > /dev/null ; then
-  echo "Go version $VERSION already installed."
+  echo "Go version $VERSION-$BIT already installed."
   goshell
   goswitch
   exit 0
 elif ls $HOME/.go 2> /dev/null | grep "go-$VERSION-$BIT" > /dev/null ; then
-  echo "Switching Go to version $VERSION"
+  echo "Switching Go to version $VERSION-$BIT"
   goshell
   goswitch
   exit 0
