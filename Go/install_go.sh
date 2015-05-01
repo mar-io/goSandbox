@@ -24,6 +24,11 @@ if [ "$hlp" = "yes" ]; then
   exit 0
 fi
 
+if [ "go version | grep $VERSION" = true ] ; then
+  echo "Go version $VERSION already installed. Exiting..."
+  exit 0
+fi
+
 BINARY="go$VERSION.linux-amd64.tar.gz"
 LINK="https://storage.googleapis.com/golang/$BINARY"
 TMP="/tmp"
@@ -39,7 +44,7 @@ if [ "$SHELL" = "/bin/bash" ] ; then
   if [ "cat $HOME/.bashrc | grep GOROOT=$HOME/.go" == true ] ; then
     exit 0
   else
-    echo 'export GOROOT=$HOME/.go/go' >> "$HOME/.bashrc"
+    echo 'export GOROOT=$HOME/.go' >> "$HOME/.bashrc"
     echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.bashrc"
     source "$HOME/.bashrc"
   fi
