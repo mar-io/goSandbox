@@ -5,9 +5,9 @@ set -e
 while getopts 'v:b:d:r:h' OPT; do
   case $OPT in
     v)  VERSION=$OPTARG;;
-    b)  BIT=$OPTARG
+    b)  BIT=$OPTARG;;
     d)  VERSION=$(curl -s https://golang.org/doc/devel/release.html | grep 'Build version' | awk '{ print $3 }' | grep -o "[0-9.][0-9.][0-9.]..");;
-    p)  PURGE=true
+    p)  PURGE=true;;
     h)  hlp="yes";;
     *)  unknown="yes";;
   esac
