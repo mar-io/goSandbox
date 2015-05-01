@@ -2,7 +2,7 @@
 set -e
 [ $# -eq 0 ] && set -- -d date > /dev/null
 
-while getopts 'v:b:d:p:h' OPT; do
+while getopts 'v:b::dph' OPT; do
   case $OPT in
     v)  VERSION=$OPTARG;;
     b)  BIT=$OPTARG;;
@@ -29,7 +29,7 @@ if [ "$hlp" = "yes" ]; then
 fi
 
 if [ "$PURGE" = true ] ; then
-  read -r -p "Are you sure you want to delete go? This will delete EVERYTHING [y/N]"
+  read -r -p "Are you sure you want to delete go? This will delete EVERYTHING![y/N] " yn
   case $yn in
         [Yy]* ) rm -rf "$HOME/.go/"
                 rm -rf "$HOME/go/"
@@ -141,9 +141,9 @@ if [ $? -ne 0 ]; then
 fi
 tar -C $HOME -xzf $TMP/$BINARY
 rm -rf $TMP/$BINARY
-mkdir -p $HOME/go
 mkdir -p $HOME/.go
-mv $HOME/go $HOME/.go/go-$VERSION
+mv $HOME/go $GOGOGO
+mkdir -p $HOME/go
 echo "Go version $VERSION installed!"
 goshell
 goswitch
