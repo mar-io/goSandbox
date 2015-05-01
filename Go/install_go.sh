@@ -32,26 +32,23 @@ GOGOGO="$HOME/.go"
 function goshell {
 
 if [ "$SHELL" = "/bin/bash" ] ; then
-  if [ "cat $HOME/.bashrc | grep GOROOT=$HOME/.go" == true ] ; then
-    exit 0
-  else
+  if ! cat $HOME/.bashrc | grep 'GOROOT=$HOME/.go' > /dev/null ; then
     echo 'export GOROOT=$HOME/.go' >> "$HOME/.bashrc"
     echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.bashrc"
     source "$HOME/.bashrc"
   fi
 elif [ "$SHELL" = "/bin/zsh" ]; then
-  if [ "cat $HOME/.zshrc | grep GOROOT=$HOME/.go" == true ] ; then
-    exit 0
-  else
+  if ! cat $HOME/.zshrc | grep 'GOROOT=$HOME/.go' > /dev/null ; then
     echo 'export GOROOT=$HOME/.go' >> "$HOME/.zshrc"
     echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.zshrc"
     source "$HOME/.zshrc"
   fi
-else 
+else
   echo "Not a valid shell. Use bash or zsh"
   exit 1
 fi
 }
+
 
 if go version 2> /dev/null | grep $VERSION > /dev/null ; then
   echo "Go version $VERSION already installed. Exiting..."
