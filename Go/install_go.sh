@@ -35,14 +35,12 @@ if [ "$SHELL" = "/bin/bash" ] ; then
   if cat $HOME/.bashrc | grep "GOROOT" > /dev/null ; then
     OLD=$(cat $HOME/.bashrc | grep "GOROOT" | grep -o "[0-9.][0-9.][0-9.]..")
     sed -i "s@GOROOT=$HOME/.go/go-$OLD@GOROOT=$GOGOGO@g" $HOME/.bashrc
-    echo "Your bashrc file was updated to use go version $VERSION"
     echo "Type 'source ~/.bashrc' to start using go$VERSION"
   fi
 elif [ "$SHELL" = "/bin/zsh" ]; then
   if cat $HOME/.zshrc | grep "GOROOT" > /dev/null ; then
     OLD=$(cat $HOME/.zshrc | grep "GOROOT" | grep -o "[0-9.][0-9.][0-9.]..")
     sed -i "s@GOROOT=$HOME/.go/go-$OLD@GOROOT=$GOGOGO@g" $HOME/.zshrc
-    echo "Your zshrc file was updated to use go version $VERSION"
     echo "Type 'source ~/.zshrc' to start using go$VERSION"
   fi
 elif [ "$SHELL" != "/bin/bash" ] || [ "$SHELL" != "/bin/zsh" ] ; then
@@ -57,7 +55,6 @@ if [ "$SHELL" = "/bin/bash" ] ; then
   if ! cat $HOME/.bashrc | grep "GOROOT" > /dev/null ; then
     echo "export GOROOT=$GOGOGO" >> "$HOME/.bashrc"
     echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.bashrc"
-    echo "Your bashrc file was updated to use go version $VERSION"
     echo "Type 'source ~/.bashrc' to start using go$VERSION"
     exit 0
   fi
@@ -65,7 +62,6 @@ elif [ "$SHELL" = "/bin/zsh" ]; then
   if ! cat $HOME/.zshrc | grep "GOROOT" > /dev/null ; then
     echo "export GOROOT=$GOGOGO" >> "$HOME/.zshrc"
     echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.zshrc"
-    echo "Your zshrc file was updated to use go version $VERSION"
     echo "Type 'source ~/.zshrc' to start using go$VERSION"
     exit 0
   fi
