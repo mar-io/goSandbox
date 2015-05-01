@@ -25,10 +25,12 @@ fi
 
 BINARY="go$VERSION.linux-amd64.tar.gz"
 LINK="https://storage.googleapis.com/golang/$BINARY"
-TMP=/tmp
+TMP="/tmp"
 GOGOGO="$HOME/.go"
 
-curl -Oo $TMP $LINK
+cd $TMP
+curl -O $LINK
+cd $HOME
 mkdir -p $GOGOGO
 tar -C $GOGOGO -xzf $TMP/$BINARY
 rm -rf $TMP/$BINARY
