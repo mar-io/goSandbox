@@ -48,8 +48,6 @@ elif [ "$SHELL" = "/bin/zsh" ]; then
 elif [ "$SHELL" != "/bin/bash" ] || [ "$SHELL" != "/bin/zsh" ] ; then
     echo "Not a valid shell. Use bash or zsh"
     exit 1
-else
-    echo "test" > /dev/null
 fi
 }
 
@@ -72,8 +70,6 @@ elif [ "$SHELL" = "/bin/zsh" ]; then
 elif [ "$SHELL" != "/bin/bash" ] || [ "$SHELL" != "/bin/zsh" ] ; then
     echo "Not a valid shell. Use bash or zsh"
     exit 1
-else
-    echo 'test' > /dev/null
 fi
 }
 
@@ -82,7 +78,7 @@ if go version 2> /dev/null | grep $VERSION > /dev/null ; then
   goshell
   goswitch
   exit 0
-elif ls $HOME/.go | grep $VERSION > /dev/null ; then
+elif ls $HOME/.go 2> /dev/null | grep $VERSION > /dev/null ; then
   echo "Switching Go to version $VERSION"
   goshell
   goswitch
