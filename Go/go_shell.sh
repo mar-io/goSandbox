@@ -76,13 +76,13 @@ function goswitch {
 if [ "$SHELL" = "/bin/bash" ] ; then
   if cat $HOME/.bashrc | grep "GOROOT" > /dev/null ; then
     OLD=$(cat $HOME/.bashrc | grep "GOROOT" | grep -o "[0-9.][0-9.][0-9.]..")
-    sed -i "s@GOROOT=$HOME/.go/go-$OLD@GOROOT=$GOGOGO@g" $HOME/.bashrc
+    sed -i "s@GOROOT=$HOME/.go/go-$OLD-$BIT@GOROOT=$GOGOGO@g" $HOME/.bashrc
     echo "Type 'source ~/.bashrc' to start using go$VERSION"
   fi
 elif [ "$SHELL" = "/bin/zsh" ]; then
   if cat $HOME/.zshrc | grep "GOROOT" > /dev/null ; then
     OLD=$(cat $HOME/.zshrc | grep "GOROOT" | grep -o "[0-9.][0-9.][0-9.]..")
-    sed -i "s@GOROOT=$HOME/.go/go-$OLD@GOROOT=$GOGOGO@g" $HOME/.zshrc
+    sed -i "s@GOROOT=$HOME/.go/go-$OLD-$BIT@GOROOT=$GOGOGO@g" $HOME/.zshrc
     echo "Type 'source ~/.zshrc' to start using go$VERSION"
   fi
 elif [ "$SHELL" != "/bin/bash" ] || [ "$SHELL" != "/bin/zsh" ] ; then
@@ -123,12 +123,12 @@ elif [ "$SHELL" != "/bin/bash" ] || [ "$SHELL" != "/bin/zsh" ] ; then
 fi
 }
 
-if go version 2> /dev/null | grep $VERSION > /dev/null ; then
+if go version 2> /dev/null | grep "go$VERSION linux/amd$BIT" > /dev/null ; then
   echo "Go version $VERSION already installed."
   goshell
   goswitch
   exit 0
-elif ls $HOME/.go 2> /dev/null | grep $VERSION > /dev/null ; then
+elif ls $HOME/.go 2> /dev/null | grep "go-$VERSION-$BIT" > /dev/null ; then
   echo "Switching Go to version $VERSION"
   goshell
   goswitch
