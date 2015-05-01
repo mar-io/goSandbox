@@ -29,28 +29,6 @@ LINK="https://storage.googleapis.com/golang/$BINARY"
 TMP="/tmp"
 GOGOGO="$HOME/.go/go-$VERSION"
 
-function goshell {
-
-if [ "$SHELL" = "/bin/bash" ] ; then
-  if ! cat $HOME/.bashrc | grep "GOROOT" > /dev/null ; then
-    echo "export GOROOT=$GOGOGO" >> "$HOME/.bashrc"
-    echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.bashrc"
-    source "$HOME/.bashrc"
-
-    echo "Current shell using go version $VERSION"
-  fi
-elif [ "$SHELL" = "/bin/zsh" ]; then
-  if ! cat $HOME/.zshrc | grep "GOROOT" > /dev/null ; then
-    echo "export GOROOT=$GOGOGO" >> "$HOME/.zshrc"
-    echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.zshrc"
-    source "$HOME/.zshrc"
-    echo "Current shell using go version $VERSION"
-  fi
-else
-  goswitch
-fi
-}
-
 function goswitch {
 
 if [ "$SHELL" = "/bin/bash" ] ; then
@@ -70,6 +48,27 @@ elif [ "$SHELL" = "/bin/zsh" ]; then
 else
   echo "Not a valid shell. Use bash or zsh"
   exit 1
+fi
+}
+
+function goshell {
+
+if [ "$SHELL" = "/bin/bash" ] ; then
+  if ! cat $HOME/.bashrc | grep "GOROOT" > /dev/null ; then
+    echo "export GOROOT=$GOGOGO" >> "$HOME/.bashrc"
+    echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.bashrc"
+    source "$HOME/.bashrc"
+    echo "Current shell using go version $VERSION"
+  fi
+elif [ "$SHELL" = "/bin/zsh" ]; then
+  if ! cat $HOME/.zshrc | grep "GOROOT" > /dev/null ; then
+    echo "export GOROOT=$GOGOGO" >> "$HOME/.zshrc"
+    echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.zshrc"
+    source "$HOME/.zshrc"
+    echo "Current shell using go version $VERSION"
+  fi
+else
+goswitch
 fi
 }
 
