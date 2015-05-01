@@ -27,21 +27,23 @@ fi
 BINARY="go$VERSION.linux-amd64.tar.gz"
 LINK="https://storage.googleapis.com/golang/$BINARY"
 TMP="/tmp"
-GOGOGO="$HOME/.go"
+GOGOGO="$HOME/.go/go-$VERSION"
 
 function goshell {
 
 if [ "$SHELL" = "/bin/bash" ] ; then
-  if ! cat $HOME/.bashrc | grep 'GOROOT=$HOME/.go' > /dev/null ; then
-    echo 'export GOROOT=$HOME/.go' >> "$HOME/.bashrc"
+  if ! cat $HOME/.bashrc | grep "GOROOT=$GOGOGO" > /dev/null ; then
+    echo "export GOROOT=$GOGOGO" >> "$HOME/.bashrc"
     echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.bashrc"
     source "$HOME/.bashrc"
+    echo "Current shell using go version $VERSION"
   fi
 elif [ "$SHELL" = "/bin/zsh" ]; then
-  if ! cat $HOME/.zshrc | grep 'GOROOT=$HOME/.go' > /dev/null ; then
-    echo 'export GOROOT=$HOME/.go' >> "$HOME/.zshrc"
+  if ! cat $HOME/.zshrc | grep "GOROOT=$GOGOGO" > /dev/null ; then
+    echo "export GOROOT=$GOGOGO" >> "$HOME/.zshrc"
     echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.zshrc"
     source "$HOME/.zshrc"
+    echo "Current shell using go version $VERSION"
   fi
 else
   echo "Not a valid shell. Use bash or zsh"
@@ -49,9 +51,12 @@ else
 fi
 }
 
-
 if go version 2> /dev/null | grep $VERSION > /dev/null ; then
-  echo "Go version $VERSION already installed. Exiting..."
+  echo "Go version $VERSION already installed."
+  goshell
+  exit 0
+elif ls $HOME/.go | grep $VERSION > /dev/null ; then
+  echo "Switching Go to version $VERSION"
   goshell
   exit 0
 fi
@@ -60,6 +65,7 @@ cd $TMP
 curl -O $LINK
 tar -C $HOME -xzf $TMP/$BINARY
 rm -rf $TMP/$BINARY
-mv $HOME/go $HOME/.go
+mkdir -p $HOME/.go
+mv $HOME/go $HOME/.go/go-$VERSION
 goshell
 echo "Go version $VERSION installed!"
