@@ -36,16 +36,16 @@ if [ "$SHELL" = "/bin/bash" ] ; then
     OLD=$(cat $HOME/.bashrc | grep "GOROOT" | grep -o "[0-9.][0-9.][0-9.]..")
     sed -i "s@GOROOT=$HOME/.go/go-$OLD@GOROOT=$GOGOGO@g" $HOME/.bashrc
     source "$HOME/.bashrc"
-    echo "bashrc updated to use go version $VERSION"
-    echo "Type '$ source .bashrc' to start using go$VERSION"
+    echo "Your bashrc file was updated to use go version $VERSION"
+    echo "Type 'source .bashrc' to start using go$VERSION"
   fi
 elif [ "$SHELL" = "/bin/zsh" ]; then
   if cat $HOME/.zshrc | grep "GOROOT" > /dev/null ; then
     OLD=$(cat $HOME/.zshrc | grep "GOROOT" | grep -o "[0-9.][0-9.][0-9.]..")
     sed -i "s@GOROOT=$HOME/.go/go-$OLD@GOROOT=$GOGOGO@g" $HOME/.zshrc
     source "$HOME/.zshrc"
-    echo "zshrc updated to use go version $VERSION"
-    echo "Type '$ source .zshrc' to start using go$VERSION"
+    echo "Your zshrc file was updated to use go version $VERSION"
+    echo "Type 'source .zshrc' to start using go$VERSION"
   fi
 elif [ "$SHELL" != "/bin/bash" ] || [ "$SHELL" != "/bin/zsh" ] ; then
     echo "Not a valid shell. Use bash or zsh"
@@ -60,8 +60,8 @@ if [ "$SHELL" = "/bin/bash" ] ; then
     echo "export GOROOT=$GOGOGO" >> "$HOME/.bashrc"
     echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.bashrc"
     source "$HOME/.bashrc"
-    echo "bashrc updated to use go version $VERSION"
-    echo "Type '$ source .bashrc' to start using go$VERSION"
+    echo "Your bashrc file was updated to use go version $VERSION"
+    echo "Type 'source .bashrc' to start using go$VERSION"
     exit 0
   fi
 elif [ "$SHELL" = "/bin/zsh" ]; then
@@ -69,8 +69,8 @@ elif [ "$SHELL" = "/bin/zsh" ]; then
     echo "export GOROOT=$GOGOGO" >> "$HOME/.zshrc"
     echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.zshrc"
     source "$HOME/.zshrc"
-    echo "zshrc updated to use go version $VERSION"
-    echo "Type '$ source .zshrc' to start using go$VERSION"
+    echo "Your zshrc file was updated to use go version $VERSION"
+    echo "Type 'source .zshrc' to start using go$VERSION"
     exit 0
   fi
 elif [ "$SHELL" != "/bin/bash" ] || [ "$SHELL" != "/bin/zsh" ] ; then
