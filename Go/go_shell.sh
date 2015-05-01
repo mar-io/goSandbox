@@ -1,12 +1,13 @@
 #! /usr/bin/env bash
 set -e
 [ $# -eq 0 ] && set -- -d date > /dev/null
+GETVRS=$(curl -s https://golang.org/doc/devel/release.html | grep 'Build version' | awk '{ print $3 }' | grep -o "[0-9.][0-9.][0-9.]..")
 
 while getopts 'v:b::dph' OPT; do
   case $OPT in
     v)  VERSION=$OPTARG;;
     b)  BIT=$OPTARG;;
-    d)  VERSION=$(curl -s https://golang.org/doc/devel/release.html | grep 'Build version' | awk '{ print $3 }' | grep -o "[0-9.][0-9.][0-9.]..");;
+    d)  VERSION=$GETVRS;;
     p)  PURGE=true;;
     h)  hlp="yes";;
     *)  unknown="yes";;
@@ -56,9 +57,10 @@ if [ "$PURGE" = true ] ; then
 fi
 
 if [ "$BIT" = '64' ] || [ "$BIT" = '32' ] ; then
-    echo $BIT > /dev/null
+    VERSION=$GETVRS
 elif [ -z "$BIT" ] ; then
     BIT='64'
+    VERSION=$GETVRS
 else
   echo 'Not a valid bit version. Please select 32,64 or nothing at all.Exiting.'
   exit 1
