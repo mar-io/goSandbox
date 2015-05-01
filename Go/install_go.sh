@@ -13,7 +13,7 @@ done
 
 # usage
 HELP="
-    usage: $0 [ -v version -d --h ]
+    usage: $0 [ -v version -d -h ]
         -n --> Particular Go version < ex. 0.4.2
         -d --> Latest Stable Go version
         -h --> print this help screen
@@ -32,16 +32,38 @@ GOGOGO="$HOME/.go/go-$VERSION"
 function goshell {
 
 if [ "$SHELL" = "/bin/bash" ] ; then
-  if ! cat $HOME/.bashrc | grep "GOROOT=$GOGOGO" > /dev/null ; then
+  if ! cat $HOME/.bashrc | grep "GOROOT" > /dev/null ; then
     echo "export GOROOT=$GOGOGO" >> "$HOME/.bashrc"
     echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.bashrc"
+    source "$HOME/.bashrc"
+
+    echo "Current shell using go version $VERSION"
+  fi
+elif [ "$SHELL" = "/bin/zsh" ]; then
+  if ! cat $HOME/.zshrc | grep "GOROOT" > /dev/null ; then
+    echo "export GOROOT=$GOGOGO" >> "$HOME/.zshrc"
+    echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.zshrc"
+    source "$HOME/.zshrc"
+    echo "Current shell using go version $VERSION"
+  fi
+else
+  goswitch
+fi
+}
+
+function goswitch {
+
+if [ "$SHELL" = "/bin/bash" ] ; then
+  if cat $HOME/.bashrc | grep "GOROOT" > /dev/null ; then
+    OLD=$(cat $HOME/.bashrc | grep "GOROOT" | grep -o "[0-9.][0-9.][0-9.]..")
+    sed -i "s@GOROOT=$HOME/.go/go-$OLD@GOROOT=$GOGOGO@g" $HOME/.bashrc
     source "$HOME/.bashrc"
     echo "Current shell using go version $VERSION"
   fi
 elif [ "$SHELL" = "/bin/zsh" ]; then
-  if ! cat $HOME/.zshrc | grep "GOROOT=$GOGOGO" > /dev/null ; then
-    echo "export GOROOT=$GOGOGO" >> "$HOME/.zshrc"
-    echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.zshrc"
+  if cat $HOME/.zshrc | grep "GOROOT" > /dev/null ; then
+    OLD=$(cat $HOME/.zshrc | grep "GOROOT" | grep -o "[0-9.][0-9.][0-9.]..")
+    sed -i "s@GOROOT=$HOME/.go/go-$OLD@GOROOT=$GOGOGO@g" $HOME/.zshrc
     source "$HOME/.zshrc"
     echo "Current shell using go version $VERSION"
   fi
@@ -57,7 +79,7 @@ if go version 2> /dev/null | grep $VERSION > /dev/null ; then
   exit 0
 elif ls $HOME/.go | grep $VERSION > /dev/null ; then
   echo "Switching Go to version $VERSION"
-  goshell
+  goswitch
   exit 0
 fi
 
@@ -67,5 +89,5 @@ tar -C $HOME -xzf $TMP/$BINARY
 rm -rf $TMP/$BINARY
 mkdir -p $HOME/.go
 mv $HOME/go $HOME/.go/go-$VERSION
-goshell
 echo "Go version $VERSION installed!"
+goshell
