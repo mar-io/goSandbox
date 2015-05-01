@@ -1,4 +1,5 @@
 #! /usr/bin/env bash
+set -e
 [ $# -eq 0 ] && set -- -d date > /dev/null
 
 while getopts 'v:d:h' OPT; do
@@ -36,15 +37,24 @@ tar -C $GOGOGO -xzf $TMP/$BINARY
 rm -rf $TMP/$BINARY
 
 if [ "$SHELL" = "/bin/bash" ] ; then
-  echo 'export GOROOT=$HOME/.go' >> "$HOME/.bashrc"
-  echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.bashrc"
-  source "$HOME/.bashrc"
+  if [ "cat $HOME/.bashrc | grep GOROOT=$HOME/.go" == true ] ; then
+    exit 0
+  else
+    echo 'export GOROOT=$HOME/.go' >> "$HOME/.bashrc"
+    echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.bashrc"
+    source "$HOME/.bashrc"
+  fi
 elif [ "$SHELL" = "/bin/zsh" ]; then
-  echo 'export GOROOT=$HOME/.go' >> "$HOME/.zshrc"
-  echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.zshrc"
-  source "$HOME/.zshrc"
+  if [ "cat $HOME/.zshrc | grep GOROOT=$HOME/.go" == true ] ; then
+    exit 0
+  else
+    echo 'export GOROOT=$HOME/.go' >> "$HOME/.zshrc"
+    echo 'export PATH=$PATH:$GOROOT/bin' >> "$HOME/.zshrc"
+    source "$HOME/.zshrc"
+  fi
 else 
   echo "Not a valid shell. Use bash or zsh"
+  exit 1
 fi
 
 
